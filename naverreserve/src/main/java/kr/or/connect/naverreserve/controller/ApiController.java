@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,15 +21,13 @@ import kr.or.connect.naverreserve.dto.Product;
 import kr.or.connect.naverreserve.dto.ProductImage;
 import kr.or.connect.naverreserve.dto.ProductPrice;
 import kr.or.connect.naverreserve.dto.Promotion;
-import kr.or.connect.naverreserve.dto.ReservationUserComment;
-import kr.or.connect.naverreserve.dto.ReservationUserCommentImage;
+import kr.or.connect.naverreserve.dto.ReservationInfo;
 import kr.or.connect.naverreserve.service.CategoryService;
 import kr.or.connect.naverreserve.service.DisplayInfoImageServie;
 import kr.or.connect.naverreserve.service.DisplayInfoService;
 import kr.or.connect.naverreserve.service.ProductService;
 import kr.or.connect.naverreserve.service.PromotionService;
-import kr.or.connect.naverreserve.service.ReservationUserCommentImageService;
-import kr.or.connect.naverreserve.service.ReservationUserCommentService;
+import kr.or.connect.naverreserve.service.ReservationService;
 
 @RestController
 @RequestMapping(path="/api")
@@ -50,10 +49,7 @@ public class ApiController {
 	DisplayInfoImageServie displayInfoImageServie;
 	
 	@Autowired
-	ReservationUserCommentService reservationUserCommentService;
-	
-	@Autowired
-	ReservationUserCommentImageService reservationUserCommentImageService;
+	ReservationService reservationService;
 	
 	@GetMapping(path="/categories")
 	public Map<String,Object> categories( )  {
@@ -239,7 +235,7 @@ public class ApiController {
 		displayInfoImages.put("modifyDate", fileInfoDto.getModifyDate());
 		
 		
-		//< comments
+/*		//< comments
 		ReservationUserComment reservationUserCommentDto
 		= reservationUserCommentService.getReservationUserCommentByProductId(productImageDto.get(0).getId());
 		
@@ -247,11 +243,11 @@ public class ApiController {
 		
 		ReservationUserCommentImage reservationUserCommentImageDto
 		= reservationUserCommentImageService.getReservationUserCommentImageById(reservationUserCommentDto.getProductId());
-		
+		*/
 		resultMap.put("product",prdouct);
 		resultMap.put("productImages",productImageList);
 		resultMap.put("displayInfoImages",displayInfoImages);
-		resultMap.put("comments",reservationUserCommentDto);
+		//resultMap.put("comments",reservationUserCommentDto);
 		//resultMap.put("reservatuibUserCommentImages",srcList);
 		resultMap.put("avgScore",3.0);
 		//resultMap.put("productPrice",srcList);
@@ -265,13 +261,22 @@ public class ApiController {
 	public Map<String,Object> reservationInfos(@PathVariable(name="id") int id){
 		//< 결과값
 		Map<String,Object> resultMap = new HashMap<String,Object>();
-		
-		System.out.println("test : " + id);
 		List<ProductPrice> price =  productService.getProductPricesById(id);
-		
 		resultMap.put("price", price);
-		
-		System.out.println("test : " + id);
 		return resultMap;
 	}
+	
+	@PostMapping(path="/bookingList")
+	public Map<String,Object> reservationInfos(@RequestParam(name="email",required=true,defaultValue="test@test.com") String email){
+		//< 결과값
+		Map<String,Object> resultMap = new HashMap<String,Object>();
+		List<ReservationInfo> reservationInfo =  reservationService.getReservationInfoByEmail(email);
+		System.out.println(reservationInfo);
+		System.out.println(email);
+		resultMap.put("reservationInfo", reservationInfo);
+		return resultMap;
+	}
+	
+	
+	
 }

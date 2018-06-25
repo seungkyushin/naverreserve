@@ -18,8 +18,8 @@
         <div class="header fade">
             <header class="header_tit">
                 <h1 class="logo">
-                    <a href="./mainpage.html" class="lnk_logo" title="네이버"> <span class="spr_bi ico_n_logo">네이버</span> </a>
-                    <a href="./mainpage.html" class="lnk_logo" title="예약"> <span class="spr_bi ico_bk_logo">예약</span> </a>
+                    <a href="../naverreserve/main" class="lnk_logo" title="네이버"> <span class="spr_bi ico_n_logo">네이버</span> </a>
+                    <a href="#" class="lnk_logo" title="예약"> <span class="spr_bi ico_bk_logo">예약</span> </a>
                 </h1>
                 <a href="#" class="btn_my"> <span title="예약확인">예약확인</span> </a>
             </header>
@@ -65,8 +65,8 @@
                         <div class="form_wrap">
                             <h3 class="out_tit">예매자 정보</h3>
                             <div class="agreement_nessasary help_txt"> <span class="spr_book ico_nessasary"></span> <span>필수입력</span> </div>
-                            <form class="form_horizontal" method="POST" action="/naverreserve/reserve">
-                                <input type="text" id="productId" name="productId" style="display:none;">
+                            <form class="form_horizontal" method="POST" action="/reservation">
+                                              
                                 <div class="inline_form"> <label class="label" for="name"> <span class="spr_book ico_nessasary">필수</span> <span>예매자</span> </label>
                                     <div class="inline_control"> <input type="text" name="reservationName" id="name" data-iscorrect="false" class="text" placeholder="홍길동" maxlength="17"> </div>
                                 </div>
@@ -84,9 +84,12 @@
                                 <div class="inline_form last"> <label class="label" for="message">예매내용</label>
                                     <div class="inline_control">
                                         <p class="inline_txt selected">
-                                        	<span class="test">2017.2.17</span>, 총 <span id="totalCount">0</span>매</p>
+                                        	<span class="date">2017.2.17</span>, 총 <span id="totalCount">0</span>매</p>
                                     </div>
                                 </div>
+                                
+                                 <input type="hidden" id="productId" name="productId">
+                       	    
                             </form>
                         </div>
                     </div>
@@ -229,7 +232,7 @@ window.addEventListener("DOMContentLoaded",function(){
 	var product = document.querySelector("#productId");
 	product.value = productId;
 	
-	var nowDate = document.querySelector(".test");
+	var nowDate = document.querySelector(".date");
 	 var d = new Date();
 	nowDate.innerText = d.getFullYear() + "." + (d.getMonth()+1) + "." + d.getDate();
 	
@@ -244,14 +247,24 @@ window.addEventListener("DOMContentLoaded",function(){
 	
 	$(".bk_btn_wrap").click(function(e){
 		
-			if( findClassName(this.classList,"disable") )
-			{
+			if( findClassName(this.classList,"disable") ){
 				console.log("bk_btn_wrap 전송 할 수 없음");
 			}
-		else
-			{
-			console.log("bk_btn_wrap 전송");
-				document.forms[0].submit();
+		else{
+			
+			var list = document.getElementsByClassName("qty");
+		
+			var value = "";
+			for(var i = 0; i < list.length; i++ ){
+					value += list[i].querySelector(".count_control_input").value + ":" ;
+				}
+			
+			var form = $(".form_horizontal");
+		    var idx = $('<input type="hidden" value="'+ value +'" name="count">');
+		    form.append(idx);
+
+			
+				document.querySelector(".form_horizontal").submit();
 			}
 	});
 	
@@ -282,6 +295,9 @@ function setProductInfo(response)
 function setReservationInfo(response)
 {
 	var responseData = JSON.parse(response.responseText);
+	
+	responseData.price[0].id;
+	
 	 
 	var prictBtn = [];
 	for(var i = 0; i < responseData.price.length; i ++)
@@ -429,15 +445,31 @@ test.prototype = {
 						this.eventFunc();
 				},
 		transTypeStr : function(typeName){
+			console.log(typeName);
 			switch(typeName){
-				case "A":
+				case 'A':
 					return "성인";
-				break;
-				case 'Y':
-					return "청소년";
 				break;
 				case 'B':
 					return "유아";
+				break;
+				case 'D':
+					return "D석";
+				break;
+				case 'E':
+					return "E";
+				break;
+				case 'R':
+					return "R석";
+				break;
+				case 'S':
+					return "S석";
+				break;
+				case 'V':
+					return "VIP";
+				break;
+				case 'Y':
+					return "청소년";
 				break;
 			}
 		},

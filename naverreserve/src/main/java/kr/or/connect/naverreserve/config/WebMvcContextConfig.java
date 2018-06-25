@@ -27,7 +27,12 @@ public class WebMvcContextConfig extends WebMvcConfigurerAdapter{
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		System.out.println("WebMvcContextConfig : 뷰 컨트롤 설정");
-		//registry.addViewController("/").setViewName("mainpage");
+		registry.addViewController("/main").setViewName("mainpage");
+		registry.addViewController("/detail").setViewName("detail");
+		registry.addViewController("/myreservation").setViewName("myreservation");
+		registry.addViewController("/bookinglogin").setViewName("bookinglogin");
+
+	
 	}
 
 	   @Override
@@ -39,8 +44,8 @@ public class WebMvcContextConfig extends WebMvcConfigurerAdapter{
 	@Bean
 	public InternalResourceViewResolver getInternalResourceViewResolver() {
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-		resolver.setPrefix("/views/");
-		resolver.setSuffix(".html");
+		resolver.setPrefix("/WEB-INF/views/");
+		resolver.setSuffix(".jsp");
 		return resolver;
 	}
 
