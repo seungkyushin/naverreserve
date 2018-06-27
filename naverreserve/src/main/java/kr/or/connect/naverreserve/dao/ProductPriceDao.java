@@ -35,9 +35,14 @@ public class ProductPriceDao {
 		return jdbc.query("select * from product_price", rowMapper);
 	}
 	
-	public List<ProductPrice> selectById(int id) {
-		Map<String,?> params = Collections.singletonMap("productId", id);
+	public List<ProductPrice> selectByProductId(int productId) {
+		Map<String,?> params = Collections.singletonMap("productId", productId);
 		return jdbc.query("select * from product_price where product_id=:productId", params,rowMapper);
+	}
+	
+	public ProductPrice selectById(int id) {
+		Map<String,?> params = Collections.singletonMap("id", id);
+		return jdbc.queryForObject("select * from product_price where id=:id", params,rowMapper);
 	}
 	
 

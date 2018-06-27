@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -53,38 +54,6 @@ public class ViewPageController {
 		return "reserve";
 	}
 	
-
-	@PostMapping(path="/reservation")
-	public String reservation(@ModelAttribute ReservationInfo data,
-			HttpServletRequest req) {
-		System.out.println("ViewPageController : /reserve");
-		
-		reservationService.insertReservationInfo(data);
-		
-		
-		ReservationInfo ri = reservationService.getReservationInfoById(data.getProductId());
-		List<ProductPrice> price =  productService.getProductPricesById(data.getProductId());
-		
-		String test = req.getParameter("count");
-		String[] srcList = test.split(":");
-		int index = 0;
-		
-		System.out.println(price);
-		
-		for( ProductPrice d : price )
-		{
-			ReservationInfoPrice rip = new ReservationInfoPrice();
-			rip.setReservationInfoId(ri.getId());
-			rip.setProductPriceId(d.getId());
-			rip.setCount(Integer.parseInt(srcList[index]));
-			index++;
-			reservationService.insertReservationInfoPrice(rip);
-		
-		}
-	
-		return "mainpage";
-	}
-	
 	@GetMapping(path="/bookinglogin")
 	public String bookinglogin(){
 		System.out.println("ViewPageController : /bookinglogin");
@@ -106,17 +75,26 @@ public class ViewPageController {
 		
 		if(reservation.isEmpty() == true )
 		{
-			redirectAttr.addAttribute("message", "해당 이메일의 예약 내역이 존재하지 않습니다.");
+			redirectAttr.addFlashAttribute("message", "메일을 다시 확인하세요.\r\n 등록되지 않은 메일입니다.");
 			
 			return "redirect:/bookinglogin";
 		}
 		
-		sec.setAttribute("email",email);
+		
+		if( sec.isNew() == false) {
+			sec.setAttribute("email",email);
+		}
+		
 		
 		return "myreservation";
 	}
 	
-	
+	@RequestMapping(path="/logout")
+	public String myreservation( HttpSession sec){
+		System.out.println("ViewPageController : /logout");
+		sec.removeAttribute("email");
+		return "redirect:/bookinglogin";
+	}
 	
 	
 

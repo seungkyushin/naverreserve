@@ -1,14 +1,19 @@
 package kr.or.connect.naverreserve.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +27,7 @@ import kr.or.connect.naverreserve.dto.ProductImage;
 import kr.or.connect.naverreserve.dto.ProductPrice;
 import kr.or.connect.naverreserve.dto.Promotion;
 import kr.or.connect.naverreserve.dto.ReservationInfo;
+import kr.or.connect.naverreserve.dto.ReservationInfoPrice;
 import kr.or.connect.naverreserve.service.CategoryService;
 import kr.or.connect.naverreserve.service.DisplayInfoImageServie;
 import kr.or.connect.naverreserve.service.DisplayInfoService;
@@ -257,26 +263,114 @@ public class ApiController {
 	}
 
 	
+	
+	
+	@PostMapping(path="/reservation")
+	public Map<String,Object> reservation(	@RequestBody Map<String,Object> param  )	 {
+		System.out.println("ApiController : /reservation");
+		Map<String,Object> resultMap = new HashMap<String,Object>();
+			
+		
+		ReservationInfo reservationInfoDto = new ReservationInfo();
+		List<Map<String,Object>> test = (List<Map<String,Object>>)param.get("prices");
+				
+		
+		//< 예약 DB 생성 
+		reservationInfoDto.setProductId(Integer.parseInt((String)param.get("productId")));
+		reservationInfoDto.setReservationEmail((String)param.get("reservationEmail"));
+		reservationInfoDto.setReservationName((String)param.get("reservationName"));
+		reservationInfoDto.setReservationTel((String)param.get("reservationTel"));
+		Date date = new Date();
+		reservationInfoDto.setCreateDate(date);
+		reservationInfoDto.setModifyDate(date);
+
+		reservationService.insertReservationInfo(reservationInfoDto);
+		
+		ReservationInfo ri = reservationService.getReservationInfoById(reservationInfoDto.getProductId());
+
+		for(Map<String,Object> data : test)
+		{
+			System.out.println(data);
+			ReservationInfoPrice reservationInfoPriceDto = new ReservationInfoPrice();
+			reservationInfoPriceDto.setReservationInfoId(ri.getId());
+			
+			int id = Integer.parseInt(data.get("productPriceId").toString());
+			int count = Integer.parseInt(data.get("count").toString());
+			System.out.println(id);
+			System.out.println(count);
+			reservationInfoPriceDto.setProductPriceId(id);
+			reservationInfoPriceDto.setCount(count);
+		
+			reservationService.insertReservationInfoPrice(reservationInfoPriceDto);
+			
+		}
+		
+		resultMap.put("result", "ok");
+		
+		return resultMap;
+	}
 	@GetMapping(path="/reservationInfos/{id}")
 	public Map<String,Object> reservationInfos(@PathVariable(name="id") int id){
+		System.out.println("ApiController : /reservationInfos");
 		//< 결과값
 		Map<String,Object> resultMap = new HashMap<String,Object>();
-		List<ProductPrice> price =  productService.getProductPricesById(id);
+		List<ProductPrice> price =  productService.getProductPricesByProductId(id);
 		resultMap.put("price", price);
 		return resultMap;
 	}
 	
-	@PostMapping(path="/bookingList")
-	public Map<String,Object> reservationInfos(@RequestParam(name="email",required=true,defaultValue="test@test.com") String email){
+	@GetMapping(path="/bookingList")
+	public Map<String,Object> reservationInfos(HttpServletRequest req){
+		System.out.println("ApiController : /bookingList");
+		String email = req.getParameter("email");
 		//< 결과값
+		
 		Map<String,Object> resultMap = new HashMap<String,Object>();
+		List<Object> rsultList = new ArrayList<Object>();
 		List<ReservationInfo> reservationInfo =  reservationService.getReservationInfoByEmail(email);
-		System.out.println(reservationInfo);
-		System.out.println(email);
-		resultMap.put("reservationInfo", reservationInfo);
+		
+		for( ReservationInfo data : reservationInfo) {
+			Map<String,Object> item = new HashMap<String,Object>();
+			
+			item.put("id", data.getId());
+			item.put("productId", data.getProductId());
+			
+			DisplayInfo displayInfodto = displayInfoService.getDisplayInfoByProductId(data.getProductId());
+			Product productdto = productService.getProductById(data.getProductId());
+			Category categorydto = categoryService.getCategory(productdto.getCategory_id());
+			
+			item.put("productCategory", 	categorydto.getName());
+			item.put("productDescription", 	productdto.getDescription());
+			item.put("productTel", 	displayInfodto.getTel());;
+			item.put("placeStreet", 	displayInfodto.getPlaceStreet());
+			
+			item.put("reservationName", 	data.getReservationName());
+			item.put("reservationTel", 	data.getReservationTel());
+			item.put("reservationEmail", 	data.getReservationEmail());
+			
+			List<ReservationInfoPrice> reservationInfoPricedto 
+			= reservationService.getReservationInfoPrice(data.getId());
+			
+			int sumPrice = 0;
+			for( ReservationInfoPrice  reservationprice : reservationInfoPricedto) {
+				int price = productService.getProductPricePrice(reservationprice.getProductPriceId());
+				int count =	reservationprice.getCount();
+				sumPrice += price * count;
+				
+				item.put("sumPrice", 	sumPrice);
+				item.put("reservationDate", data.getReservationDate());
+				item.put("createDate", data.getCreateDate());
+				item.put("modifyDate", data.getModifyDate());
+				
+				
+			}
+			
+			rsultList.add(item);
+
+		}
+		resultMap.put("items", rsultList);
+		
 		return resultMap;
 	}
-	
-	
 	
 }

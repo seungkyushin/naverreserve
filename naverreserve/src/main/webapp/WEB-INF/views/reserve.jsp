@@ -21,7 +21,7 @@
         <div class="header fade">
             <header class="header_tit">
                 <h1 class="logo">
-                    <a href="./mainpage.html" class="lnk_logo" title="네이버"> <span class="spr_bi ico_n_logo">네이버</span> </a>
+                    <a href="..naverreserve/main" class="lnk_logo" title="네이버"> <span class="spr_bi ico_n_logo">네이버</span> </a>
                     <a href="./mainpage.html" class="lnk_logo" title="예약"> <span class="spr_bi ico_bk_logo">예약</span> </a>
                 </h1>
                 <a href="#" class="btn_my"> <span title="예약확인">예약확인</span> </a>
@@ -30,7 +30,7 @@
         <div class="ct">
             <div class="ct_wrap">
                 <div class="top_title">
-                    <a href="#" class="btn_back" title="이전 화면으로 이동"> <i class="fn fn-backward1"></i> </a>
+                    <a href="..naverreserve/main" class="btn_back" title="이전 화면으로 이동"> <i class="fn fn-backward1"></i> </a>
                     <h2><span class="title"></span></h2>
                 </div>
                 <div class="group_visual">
@@ -68,7 +68,7 @@
                         <div class="form_wrap">
                             <h3 class="out_tit">예매자 정보</h3>
                             <div class="agreement_nessasary help_txt"> <span class="spr_book ico_nessasary"></span> <span>필수입력</span> </div>
-                            <form class="form_horizontal" method="POST" action="/naverreserve/reservation">
+                            <form class="form_horizontal">
                                               
                                 <div class="inline_form"> <label class="label" for="name"> <span class="spr_book ico_nessasary">필수</span> <span>예매자</span> </label>
                                     <div class="inline_control"> <input type="text" name="reservationName" id="name" data-iscorrect="false" class="text" placeholder="홍길동" maxlength="17"> </div>
@@ -138,7 +138,7 @@
 </body>
 
 <script type="rv_template" id="priceTypeList">
-<div class="qty">
+<div class="qty" data-pirceId="{{pirceId}}">
             <div class="count_control">
           <!-- [D] 수량이 최소 값이 일때 ico_minus3, count_control_input에 disabled 각각 추가, 수량이 최대 값일 때는 ico_plus3에 disabled 추가 -->
                                 <div class="clearfix">
@@ -256,18 +256,60 @@ window.addEventListener("DOMContentLoaded",function(){
 		else{
 			
 			var list = document.getElementsByClassName("qty");
-		
-			var value = "";
-			for(var i = 0; i < list.length; i++ ){
-					value += list[i].querySelector(".count_control_input").value + ":" ;
-				}
-			
 			var form = $(".form_horizontal");
-		    var idx = $('<input type="hidden" value="'+ value +'" name="count">');
-		    form.append(idx);
+			var formData = form.serializeArray();
+			var sendData = {};
+		
 
+		 	formData.forEach(function(v){
+				
+				if( v.name == "productId"){
+					sendData.productId = v.value;
+				}
+				else if( v.name == "reservationName" ){
+					sendData.reservationName = v.value;
+				}
+				else if( v.name == "reservationTel" ){
+					sendData.reservationTel = v.value;				
+				}
+				else if( v.name == "reservationEmail" ){
+					sendData.reservationEmail = v.value;
+				}
+				
+				  var pricesArry = [];
+				for(var i=0; i<list.length; i++)
+					{
+						var obj = {};
+						obj.productPriceId = list[i].dataset.pirceid;
+						obj.count = list[i].querySelector(".count_control_input").value;
+						pricesArry.push(obj);
+						
+					}
+				sendData.prices = pricesArry;  
+			}); 
+				
+		
 			
-				document.querySelector(".form_horizontal").submit();
+			sendData = JSON.stringify(sendData);
+			   console.log( sendData );
+			    $.ajax({
+				   url : "http://localhost:8080/naverreserve/api/reservation",
+					type : "POST" ,
+					data : sendData ,
+					contentType:"application/json",
+					//dataType:"JSON",
+
+					success : function(data){
+						console.log(data);
+						alert("예약이 성공적으로 완료되었습니다.\n 처음화면으로 돌아갑니다.");
+						window.location.href = "http://localhost:8080/naverreserve/main";
+						
+					},
+					error : function(xhr, status, error) {
+		                 alert("에러발생");
+		           }
+
+			   }); 
 			}
 	});
 	
@@ -433,7 +475,8 @@ test.prototype = {
 					var typelateElement = document.querySelector(temlateId);
 					var textCompile = Handlebars.compile(typelateElement.innerText);
 			
-					var data = {type : this.transTypeStr(this.objectData.priceTypeName),
+					var data = {pirceId : this.objectData.id,
+								type : this.transTypeStr(this.objectData.priceTypeName),
 								price : this.transPriceStr(this.objectData.price),
 								discountRate : this.objectData.discountRate};
 			

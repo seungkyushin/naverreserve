@@ -94,11 +94,8 @@ function setPromotions(response){
 	//< Ajax로 데이터를 받아와 hmml 수정
 	for(var index = 0; index < dataSize; index++)
 		{
-			var html = '<li><img src="/naverreserve/img/' +
-			responseData.items[index].productId 
-			+ '_ma_'
-			+ responseData.items[index].productImageId
-			+ '.png" class="promotion_img"></li>';
+			var html = '<li><img src=/naverreserve/' 
+				+ responseData.items[index].imageSrc  + ' class="promotion_img"></li>';
 			
 			//< html에 Element를 정적으로 만들어 놓지 않으면 DOM조작시 CSS옵션이 잘 먹지않아
 			//< 이코드는 정적으로 Element를 만들어놓고 다시 동적으로 생성하였다.
@@ -109,11 +106,8 @@ function setPromotions(response){
 			else if( index < 3)
 				PromotionElements.innerHTML += html;
 
-			var tempSrc = '<img src="/naverreserve/img/' +
-			responseData.items[index].productId 
-			+ '_ma_'
-			+ responseData.items[index].productImageId
-			+ '.png" class="promotion_img">';
+			var tempSrc = '<img src="/naverreserve/' 
+				+  responseData.items[index].imageSrc + ' class="promotion_img">';
 			arrayPromotionSrc[index] = html;
 		}
 	

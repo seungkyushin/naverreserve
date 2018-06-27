@@ -41,9 +41,9 @@ public class ReservationInfoPriceDao {
 		return jdbc.query("select * from reservation_info_price", rowMapper);
 	}
 	
-	public ReservationInfoPrice selectByReservationInfoId(int id) {
+	public List<ReservationInfoPrice> selectByReservationInfoId(int id) {
 		Map<String,?> paramMap = Collections.singletonMap("reservationId", id);
-		return jdbc.queryForObject("select * from reservation_info_price WHERE reservation_info_id=:reservationId", paramMap, rowMapper);
+		return jdbc.query("select * from reservation_info_price WHERE reservation_info_id=:reservationId", paramMap, rowMapper);
 	}
 	
 	

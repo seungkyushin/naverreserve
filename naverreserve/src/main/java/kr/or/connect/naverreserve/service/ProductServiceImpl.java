@@ -102,15 +102,16 @@ public class ProductServiceImpl implements ProductService{
 		return productPriceDao.selectAll();
 	}
 
+
 	@Override
-	public List<ProductPrice> getProductPricesById(int id) {
-		return productPriceDao.selectById(id);
+	public List<ProductPrice> getProductPricesByProductId(int id) {
+		return productPriceDao.selectByProductId(id);
 	}
 
 	@Override
-	public int getProductPriceCount() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getProductPricePrice(int id) {
+		ProductPrice productPriceDto = productPriceDao.selectById(id);
+		return productPriceDto.getPrice();
 	}
 
 	
@@ -129,4 +130,7 @@ public class ProductServiceImpl implements ProductService{
 	public String getSaveFileNameById(int id) {
 		return fileInfoDao.selectByproductImageId(id).getSaveFileName();
 	}
+
+	
+	
 }

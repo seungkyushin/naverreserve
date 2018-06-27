@@ -33,18 +33,19 @@
       <app>
          <toast-alert class="top_info hide booking_alert">
             <p class="top_info_txt"> <i class="fn fn-info1" aria-hidden="true"></i> <span class="_toast_alert_text"></span> </p>
-            <a href="../naverreserve/main" class="top_info_close"  data-tst_alt_close="0"> <i class="fn fn-close" aria-hidden="true"></i> <span class="sr_only" translate="CM-CLOSE">닫기</span> </a> 
+            <a href="./main" class="top_info_close"  data-tst_alt_close="0"> <i class="fn fn-close" aria-hidden="true"></i> <span class="sr_only" translate="CM-CLOSE">닫기</span> </a> 
          </toast-alert>
          <!---->
          <div class="_view_content" ui-view="content" id="container" >
             <booked-confirm>
                <div class="booking_login">
-                  <h1 class="login_header"> <a href="../naverreserve/main"  class="nbooking_logo spr_bi txt_logo" > <span translate="CM-NBOOKING">네이버 예약</span> </a> </h1>
+                  <h1 class="login_header"> <a href="./main"  class="nbooking_logo spr_bi txt_logo" > <span translate="CM-NBOOKING">네이버 예약</span> </a> </h1>
                   <!---->
                   <div >
-                     <form name="confirm_form" class="ng-pristine ng-valid" id="form1" action="../naverreserve/myreservation" method="POST">
+                     <form name="confirm_form" class="ng-pristine ng-valid" id="form1" action="./myreservation" method="POST">
                         <h2 class="login_header_sub border_bottom"> <span translate="CM-NON_MEMBER_BK_CONFIRMATION">비회원 예약확인</span> </h2>
                         <div class="login_form"> 
+                        		<div><span translate="CM-BOOKING_NUMBER" style="color:red">${message}</span></div>
                            <label class="label_form" for="resrv_id" translate="CM-BOOKING_NUMBER">예약자 이메일 입력</label> 
                            <input type="text" class="login_input ng-pristine ng-untouched ng-valid ng-empty" id="resrv_id" name="resrv_email" aria-invalid="false" placeholder="crong@naver.com" title="예매자이메일">  </div>
                         <button type="submit" form="form1" class="login_btn confirm" > <span translate="CM-MY_BOOKING_CHECK">내 예약 확인</span> </button> <!----> <!----> <!----> <!----> 
@@ -115,7 +116,7 @@
 				document.querySelector(".ng-pristine").submit();
 			}
 			else{
-				alert("이메일 형식에 맞게 입력해주세여");			
+					alert("이메일 형식에 맞게 입력해주세여");			
 				}
 		
 	});

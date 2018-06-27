@@ -11,6 +11,8 @@ public interface ReservationService {
 	public List<ReservationInfo> getReservationInfoByEmail(String email);
 	public ReservationInfo getReservationInfoById(int id);
 	public Long insertReservationInfo(ReservationInfo data);
-	public Long insertReservationInfoPrice(ReservationInfoPrice data);
 	
+	//< 가격
+	public Long insertReservationInfoPrice(ReservationInfoPrice data);
+	public List<ReservationInfoPrice> getReservationInfoPrice(int reservationId);
 }

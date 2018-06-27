@@ -24,8 +24,8 @@ public interface ProductService {
 	
 	//productPrice
 	public List<ProductPrice> getProductPrices();
-	public List<ProductPrice> getProductPricesById(int id);
-	public int getProductPriceCount();
+	public List<ProductPrice> getProductPricesByProductId(int id);
+	public int getProductPricePrice(int id);
 	
 	//fileInfo
 	public List<FileInfo> getFileInfoAll();
