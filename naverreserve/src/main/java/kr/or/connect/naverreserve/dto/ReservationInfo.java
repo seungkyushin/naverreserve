@@ -11,6 +11,7 @@ public class ReservationInfo {
  private Date reservationDate;
  private Date createDate;
  private Date modifyDate;
+ private String status;
 public int getId() {
 	return id;
 }
@@ -59,12 +60,19 @@ public Date getModifyDate() {
 public void setModifyDate(Date modifyDate) {
 	this.modifyDate = modifyDate;
 }
+public String getStatus() {
+	return status;
+}
+public void setStatus(String status) {
+	this.status = status;
+}
 @Override
 public String toString() {
 	return "ReservationInfo [id=" + id + ", productId=" + productId + ", reservationName=" + reservationName
 			+ ", reservationTel=" + reservationTel + ", reservationEmail=" + reservationEmail + ", reservationDate="
-			+ reservationDate + ", createDate=" + createDate + ", modifyDate=" + modifyDate + "]";
+			+ reservationDate + ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", status=" + status
+			+ "]";
 }
- 
+
  
 }

@@ -22,26 +22,22 @@
             <header class="header_tit">
                 <h1 class="logo">
                     <a href="./main" class="lnk_logo" title="네이버"> <span class="spr_bi ico_n_logo">네이버</span> </a>
-                    <a href="./bookinglogin" class="lnk_logo" title="예약"> <span class="spr_bi ico_bk_logo">예약</span> </a>
+                    
+                    	<c:if test="${empty sessionScope.email}">
+      			 	  <a href="../bookinlogin" class="lnk_logo" title="예약"><span class="spr_bi ico_bk_logo">예약</span></a>
+   				 	</c:if>
+                    
                 </h1>
-          
-         
- 
+
 <c:choose>
- 
     <c:when test="${empty sessionScope.email}">
         <a href="./bookinglogin" class="btn_my"> <span class="viewReservation" title="예약확인">예약확인</span> </a>
     </c:when>
     <c:otherwise>
        <a href="./myreservation" class="btn_my"> <span class="viewReservation" title="${sessionScope.email}">${sessionScope.email}</span> </a>
     </c:otherwise>
- 
 </c:choose>
-
-
-		
                
-                
             </header>
         </div>
         <hr>

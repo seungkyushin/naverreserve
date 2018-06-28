@@ -62,14 +62,22 @@ public class ViewPageController {
 	}
 	
 	
-	@PostMapping(path="/myreservation")
+	@GetMapping(path="/myreservation")
 	public String myreservation( @ModelAttribute("resrv_email") String email 
 			,HttpSession sec
 			,RedirectAttributes redirectAttr
 			,ModelAndView model){
 		System.out.println("ViewPageController : /myreservation");
+		System.out.println(sec.getAttribute("email"));
 		
-		System.out.println(email);
+	
+				
+		if( sec.isNew() == false && email.equals("") )
+		{
+			email = (String)sec.getAttribute("email");
+		}
+	
+		sec.setAttribute("email",email);
 		
 		List<ReservationInfo> reservation = reservationService.getReservationInfoByEmail(email);
 		
@@ -79,12 +87,6 @@ public class ViewPageController {
 			
 			return "redirect:/bookinglogin";
 		}
-		
-		
-		if( sec.isNew() == false) {
-			sec.setAttribute("email",email);
-		}
-		
 		
 		return "myreservation";
 	}

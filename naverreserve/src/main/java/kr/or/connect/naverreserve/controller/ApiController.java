@@ -347,6 +347,7 @@ public class ApiController {
 			item.put("reservationName", 	data.getReservationName());
 			item.put("reservationTel", 	data.getReservationTel());
 			item.put("reservationEmail", 	data.getReservationEmail());
+			item.put("status", 	data.getStatus());
 			
 			List<ReservationInfoPrice> reservationInfoPricedto 
 			= reservationService.getReservationInfoPrice(data.getId());

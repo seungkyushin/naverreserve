@@ -42,7 +42,7 @@
                   <h1 class="login_header"> <a href="./main"  class="nbooking_logo spr_bi txt_logo" > <span translate="CM-NBOOKING">네이버 예약</span> </a> </h1>
                   <!---->
                   <div >
-                     <form name="confirm_form" class="ng-pristine ng-valid" id="form1" action="./myreservation" method="POST">
+                     <form name="confirm_form" class="ng-pristine ng-valid" id="form1" action="./myreservation" method="GET">
                         <h2 class="login_header_sub border_bottom"> <span translate="CM-NON_MEMBER_BK_CONFIRMATION">비회원 예약확인</span> </h2>
                         <div class="login_form"> 
                         		<div><span translate="CM-BOOKING_NUMBER" style="color:red">${message}</span></div>

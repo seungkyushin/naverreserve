@@ -6,7 +6,6 @@
 
 <html lang="ko">
 <head>
-<meta charset="utf-8">
 <meta name="description"
 	content="네이버 예약, 네이버 예약이 연동된 곳 어디서나 바로 예약하고, 네이버 예약 홈(나의예약)에서 모두 관리할 수 있습니다.">
 <meta name="viewport"
@@ -26,33 +25,49 @@
 
 <body>
 	<div id="container">
-		<div class="header fade">
+	<%-- 	<div class="header fade">
 			<header class="header_tit">
 				<h1 class="logo">
-					<a href="../naverreserve/main" class="lnk_logo" title="네이버"> <span
+					<a href="./main" class="lnk_logo" title="네이버"> <span
 						class="spr_bi ico_n_logo">네이버</span>
-					</a> <a href="../" class="lnk_logo" title="예약"> <span
-						class="spr_bi ico_bk_logo">예약</span>
 					</a>
+				<c:if test="${empty sessionScope.email}">
+      			   <a href="../bookinlogin" class="lnk_logo" title="예약"><span class="spr_bi ico_bk_logo">예약</span></a>
+   				 </c:if>
 				</h1>
-				<a href="./bookinglogin.html" class="btn_my"> <span title="예약확인">예약확인</span>
-				</a>
+				
+		<c:choose>
+    		<c:when test="${empty sessionScope.email}">
+      		  <a href="./bookinglogin" class="btn_my"> <span class="viewReservation" title="예약확인">예약확인</span> </a>
+   			 </c:when>
+   			 <c:otherwise>
+     		  <a href="./myreservation" class="btn_my"> <span class="viewReservation" title="${sessionScope.email}">${sessionScope.email}</span> </a>
+   			 </c:otherwise>
+		</c:choose>
 			</header>
-		</div>
+			
+		</div> --%>
+		
 		<div class="ct main">
 			<div>
 				<div class="section_visual">
 					<header>
 						<h1 class="logo">
-							<a href="../naverreserve/main" class="lnk_logo" title="네이버"> <span
+							<a href="./main" class="lnk_logo" title="네이버"> <span
 								class="spr_bi ico_n_logo">네이버</span>
-							</a> <a href="../" class="lnk_logo" title="예약"> <span
-								class="spr_bi ico_bk_logo">예약</span>
-							</a>
+							</a> 
+							<c:if test="${empty sessionScope.email}">
+      			  				 <a href="../bookinlogin" class="lnk_logo" title="예약"><span class="spr_bi ico_bk_logo">예약</span></a>
+   				 			</c:if>
 						</h1>
-						<a href="./myreservation.html" class="btn_my"> <span
-							class="viewReservation" title="예약확인">예약확인</span>
-						</a>
+						<c:choose>
+    		<c:when test="${empty sessionScope.email}">
+      		  <a href="./bookinglogin" class="btn_my"> <span class="viewReservation" title="예약확인">예약확인</span> </a>
+   			 </c:when>
+   			 <c:otherwise>
+     		  <a href="./myreservation" class="btn_my"> <span class="viewReservation" title="${sessionScope.email}">${sessionScope.email}</span> </a>
+   			 </c:otherwise>
+		</c:choose>
 					</header>
 					<div class="pagination">
 						<div class="bg_pagination"></div>
