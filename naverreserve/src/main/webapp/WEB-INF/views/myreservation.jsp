@@ -77,7 +77,7 @@
 			<hr>
 		</div>
 	
-				<a href="logout"> <button class="btn"><span>로그 아웃</span></button></a>
+				 <button class="btn"><span><a href="./logout">로그 아웃</a></span></button>
 			
 												
 		<footer>

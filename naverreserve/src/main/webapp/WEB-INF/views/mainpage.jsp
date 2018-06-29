@@ -24,7 +24,7 @@
                     <a href="./main" class="lnk_logo" title="네이버"> <span class="spr_bi ico_n_logo">네이버</span> </a>
                     
                     	<c:if test="${empty sessionScope.email}">
-      			 	  <a href="../bookinlogin" class="lnk_logo" title="예약"><span class="spr_bi ico_bk_logo">예약</span></a>
+      			 	  <a href="./bookinglogin" class="lnk_logo" title="예약"><span class="spr_bi ico_bk_logo">예약</span></a>
    				 	</c:if>
                     
                 </h1>

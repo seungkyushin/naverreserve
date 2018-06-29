@@ -15,4 +15,5 @@ public interface ReservationService {
 	//< 가격
 	public Long insertReservationInfoPrice(ReservationInfoPrice data);
 	public List<ReservationInfoPrice> getReservationInfoPrice(int reservationId);
+	public int updateReservationStatus(int id,String status);
 }

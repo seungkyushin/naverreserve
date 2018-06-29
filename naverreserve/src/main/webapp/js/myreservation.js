@@ -1,7 +1,6 @@
 function initReservationList(response){
 	var responseData = JSON.parse(response.responseText);
 	var cardItemHeaders = [];
-	debugger;
 	var status = ["confirmed","finish","cancel"];
 	
 	status.forEach(function(v,i){
@@ -43,8 +42,39 @@ function initReservationList(response){
 		console.log("예");
 		
 		var index = document.querySelector(".pop_tit").dataset.index;
-		cardItemHeaders[0].removeCardItem(0);
-
+		
+		//< 1. 삭제전 옮기기 (0) "confirmed", (1) "finish", (2) "cancel"
+		var data = cardItemHeaders[0].removeCardItem(index);
+		data.status = "cancel";
+		
+		cardItemHeaders.forEach(function(v){
+			v.printCardItems();
+		});
+	
+		cardItemHeaders[2].addCardItem(data);
+		
+		cardItemHeaders.forEach(function(v){
+			v.eventSetting();
+		});
+		
+		var sendData = {};
+		sendData['id'] = data.id;
+		sendData['status'] = data.status;
+		
+		$.ajax({
+			url : "./api/transStaus",
+			type: "POST",
+			data : JSON.stringify(sendData),
+			contentType:"application/json",
+			success : function(data, status, xhr) {
+			      console.log(data);
+			    },
+			    error: function(jqXHR, textStatus, errorThrown) {
+			      alert("error= " + errorThrown);
+			    }
+		});
+		
+		
 		
 	});
 	
@@ -124,6 +154,7 @@ Carditem.prototype = {
 				
 				$(".pop_tit").html(html);
 				
+				document.querySelector(".pop_tit").dataset.index = index;
 				
 			});
 		},
@@ -165,15 +196,16 @@ function CarditemHeader(status,index){
 	this.makeHTML();
 }
 CarditemHeader.prototype = {
-		removeCardItem : function(index){
-			this.cardItems.indexOf(index);
+		
+		printCardItems : function(){
 			var className = this.getCarditemHeaderClassName(this.status);
 			document.querySelector(className).innerHTML = "";
+			
+			this.makeHTML();
 			
 			this.cardItems.forEach(function(v){
 				v.makeHTML();
 			});
-			
 		},
 		makeHTML : function(){
 			var data = this.getMakeTemplateData(this.status);
@@ -188,7 +220,11 @@ CarditemHeader.prototype = {
 		addCardItem : function(data){
 			this.cardItems.push(new Carditem(data));
 		},
-		
+		removeCardItem : function(index){
+			var result = this.cardItems[index].objData;
+			this.cardItems.splice(index,1);
+			return result;
+		},
 		getMakeTemplateData : function(status){
 			var result = {};
 			if( status == "confirmed" )

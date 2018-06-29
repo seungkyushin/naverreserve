@@ -280,9 +280,7 @@ public class ApiController {
 		reservationInfoDto.setReservationEmail((String)param.get("reservationEmail"));
 		reservationInfoDto.setReservationName((String)param.get("reservationName"));
 		reservationInfoDto.setReservationTel((String)param.get("reservationTel"));
-		Date date = new Date();
-		reservationInfoDto.setCreateDate(date);
-		reservationInfoDto.setModifyDate(date);
+		reservationInfoDto.setStatus("confirmed");
 
 		reservationService.insertReservationInfo(reservationInfoDto);
 		
@@ -371,6 +369,23 @@ public class ApiController {
 		}
 		resultMap.put("items", rsultList);
 		
+		return resultMap;
+	}
+	
+	
+	@PostMapping(path="/transStaus")
+	public Map<String,Object> reservationInfoStatus(@RequestBody Map<String,Object> data){
+		System.out.println("ApiController : /transStaus");
+		System.out.println(data);
+		Map<String,Object> resultMap = new HashMap<String,Object>();
+		
+		int id = (Integer)data.get("id");
+		String status = (String)data.get("status");
+		
+		int count = reservationService.updateReservationStatus(id, status);
+		
+		resultMap.put("result", "ok");
+		resultMap.put("count", count);
 		return resultMap;
 	}
 	

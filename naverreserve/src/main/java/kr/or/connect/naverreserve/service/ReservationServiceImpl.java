@@ -52,5 +52,10 @@ public class ReservationServiceImpl implements ReservationService{
 		return reservationInfoPriceDao.selectByReservationInfoId(reservationId);
 	}
 
+	@Override
+	public int updateReservationStatus(int id, String status) {
+		return reservationInfoDao.updateStatusById(id,status);
+	}
+
 	
 }

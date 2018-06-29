@@ -1,6 +1,7 @@
 package kr.or.connect.naverreserve.dao;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +49,14 @@ public class ReservationInfoDao {
 	public List<ReservationInfo> selectByEmail(String email) {
 		Map<String,?> paramMap = Collections.singletonMap("reservation_email", email);
 		return jdbc.query("select * from reservation_info WHERE reservation_email=:reservation_email", paramMap, rowMapper);
+	}
+	
+	public int updateStatusById(int id,String status) {
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("id", id);
+		paramMap.put("status", status);
+		
+		return jdbc.update("UPDATE reservation_info SET status=:status WHERE id=:id", paramMap);
 	}
 	
 }
