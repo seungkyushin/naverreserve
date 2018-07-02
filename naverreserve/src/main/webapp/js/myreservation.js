@@ -102,6 +102,8 @@ Carditem.prototype = {
 			var tempData = this.getMakeTemplateData(objData);
 			var templateCardItem = document.querySelector(templateName);
 			var paser = Handlebars.compile(templateCardItem.innerText);
+				
+			
 			return paser(tempData);
 		},
 		getMakeTemplateData : function(obejectData){
@@ -112,7 +114,8 @@ Carditem.prototype = {
 			}
 			
 			result.sumPrice = this.transPriceStr(obejectData.sumPrice);
-				
+			result.buttonClassName = obejectData.status;
+			
 			return result;
 		},
 		
@@ -132,19 +135,21 @@ Carditem.prototype = {
 			return resultSrc;
 		},
 		makeButtonChangeHTML : function(index){
-			var btn = document.getElementsByClassName("booking_cancel");
+			var btn = document.getElementsByClassName("booking_cancel "+this.objData.status);
 			var html = "";
 			
 			if( this.objData.status == "confirmed" ){
 				html = '<button class="btn"><span>취소</span></button>';
 			}else if( this.objData.status == "finish") {
-				html = '<a href="../naverreserve/reviewWrite"><button class="btn"><span>예매자 리뷰 남기기</span></button></a>';
+				html = '<a href="./reviewWrite?productId='+ this.objData.productId 
+				+ '&reservationId=' + this.objData.id +'"><button class="btn"><span>예매자 리뷰 남기기</span></button></a>';
 			}
 			
 			btn[index].innerHTML += html;
 
 		},
 		addEventButtonCancel : function(index,description,reservationDate){
+			
 			var btn = document.getElementsByClassName("booking_cancel");
 			btn[index].addEventListener("click",function(){
 				
@@ -267,17 +272,14 @@ CarditemHeader.prototype = {
 				v.makeButtonChangeHTML(i);
 			});
 			
-			this.cardItems.forEach(function(v,i){
-				var dec = v.objData.productDescription;
-				var res = v.objData.reservationDate
-				v.addEventButtonCancel(i,dec,res);
-			});
+			if( this.status == "confirmed")
+				{
+					this.cardItems.forEach(function(v,i){
+						var dec = v.objData.productDescription;
+						var res = v.objData.reservationDate
+						v.addEventButtonCancel(i,dec,res);
+					});
+				}
 		},
-		
 	
-		
-		
-		
-		
-		
 }

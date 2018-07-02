@@ -89,11 +89,30 @@ function setProductDetail(response){
 	var displayDicription = document.querySelector(".store_details.close3");
 		displayDicription.children[0].innerHTML = responseData.product.content;
 	
+	//< 리뷰 
+		var maxCount = responseData.comments.length;
+		document.querySelector(".join_count").innerHTML = '<em class="green">' + maxCount +'건</em> 등록';
+	
+		
+		var review = [];
+		var avgScore = 0;
+		for(var i = 0; i < maxCount; i++)
+			{
+				review[i] = new reviewItem(responseData.comments[i]);
+				avgScore += responseData.comments[i].score;
+			}
+		avgScore /= maxCount;
+		avgScore.toFixed(1);
+		document.querySelector(".text_value").innerHTML = '<span>'+ avgScore + '</span> <em	class="total">5.0</em>';
+		
 	//< 세부 정보 소개 설정 
 	var detailInfo = document.querySelector(".detail_info_group");
 	var detailInfoIntroduce= detailInfo.querySelector(".in_dsc");
 	detailInfoIntroduce.innerHTML = responseData.product.content;
 
+	
+	
+	
 	//< 오는길 정보 설정 
 	var detailLocation = document.querySelector(".detail_location");
 	var mapImg = detailLocation.querySelector(".store_map.img_thumb");
@@ -114,3 +133,21 @@ function setProductDetail(response){
 
 }
 
+function reviewItem(data){
+	this.makeHTML(data);
+}
+reviewItem.prototype = {
+		makeHTML : function(data){
+				
+			document.querySelector(".list_short_review").innerHTML
+			+= this.makeTemlateHTML("#listItem_review",data);
+	
+		},
+
+		makeTemlateHTML : function(templateName,data){
+			var tempData = data;
+			var templateItem = document.querySelector(templateName);
+			var paser = Handlebars.compile(templateItem.innerText);
+			return paser(tempData);
+		}
+}

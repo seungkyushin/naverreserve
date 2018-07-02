@@ -28,6 +28,7 @@ import kr.or.connect.naverreserve.dto.ProductPrice;
 import kr.or.connect.naverreserve.dto.Promotion;
 import kr.or.connect.naverreserve.dto.ReservationInfo;
 import kr.or.connect.naverreserve.dto.ReservationInfoPrice;
+import kr.or.connect.naverreserve.dto.ReservationUserComment;
 import kr.or.connect.naverreserve.service.CategoryService;
 import kr.or.connect.naverreserve.service.DisplayInfoImageServie;
 import kr.or.connect.naverreserve.service.DisplayInfoService;
@@ -241,10 +242,10 @@ public class ApiController {
 		displayInfoImages.put("modifyDate", fileInfoDto.getModifyDate());
 		
 		
-/*		//< comments
-		ReservationUserComment reservationUserCommentDto
-		= reservationUserCommentService.getReservationUserCommentByProductId(productImageDto.get(0).getId());
-		
+	//< comments
+		List<ReservationUserComment> reservationUserCommentDto
+		= reservationService.getReservationUserCommentByProductId(ProductDto.getId());		
+		/*			
 		//< reservatuibUserCommentImages
 		
 		ReservationUserCommentImage reservationUserCommentImageDto
@@ -253,7 +254,7 @@ public class ApiController {
 		resultMap.put("product",prdouct);
 		resultMap.put("productImages",productImageList);
 		resultMap.put("displayInfoImages",displayInfoImages);
-		//resultMap.put("comments",reservationUserCommentDto);
+		resultMap.put("comments",reservationUserCommentDto);
 		//resultMap.put("reservatuibUserCommentImages",srcList);
 		resultMap.put("avgScore",3.0);
 		//resultMap.put("productPrice",srcList);
@@ -388,5 +389,26 @@ public class ApiController {
 		resultMap.put("count", count);
 		return resultMap;
 	}
+	
+	@PostMapping(path="/reservationUserComments")
+	public  Map<String,Object> UserComment(@RequestBody Map<String,Object> MapData) {
+		System.out.println("@PostMapping : /reservationUserComments");
+		
+		System.out.println(MapData);
+		
+		Map<String,Object> resultMap = new HashMap<String,Object>();
+		ReservationUserComment reservationUserCommentDto = new ReservationUserComment();
+		
+		reservationUserCommentDto.setComment((String)MapData.get("comment"));
+		reservationUserCommentDto.setScore(Integer.parseInt((String)MapData.get("score")));
+		reservationUserCommentDto.setProductId(Integer.parseInt((String)MapData.get("productId")));
+		reservationUserCommentDto.setReservationInfoId(Integer.parseInt((String)MapData.get("reservationId")));
+		
+		reservationService.insertReservationUserComment(reservationUserCommentDto);
+		
+		resultMap.put("reservationUserComment",reservationUserCommentDto);
+		return resultMap;
+	}
+	
 	
 }

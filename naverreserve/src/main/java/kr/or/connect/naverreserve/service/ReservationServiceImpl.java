@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 
 import kr.or.connect.naverreserve.dao.ReservationInfoDao;
 import kr.or.connect.naverreserve.dao.ReservationInfoPriceDao;
+import kr.or.connect.naverreserve.dao.ReservationUserCommentDao;
 import kr.or.connect.naverreserve.dto.ReservationInfo;
 import kr.or.connect.naverreserve.dto.ReservationInfoPrice;
+import kr.or.connect.naverreserve.dto.ReservationUserComment;
 
 @Service
 public class ReservationServiceImpl implements ReservationService{
@@ -19,6 +21,9 @@ public class ReservationServiceImpl implements ReservationService{
 	
 	@Autowired
 	ReservationInfoPriceDao reservationInfoPriceDao;
+	
+	@Autowired
+	ReservationUserCommentDao reservationUserCommentDao;
 	
 	
 	@Override
@@ -55,6 +60,19 @@ public class ReservationServiceImpl implements ReservationService{
 	@Override
 	public int updateReservationStatus(int id, String status) {
 		return reservationInfoDao.updateStatusById(id,status);
+	}
+
+	@Override
+	public Long insertReservationUserComment(ReservationUserComment data) {
+		Date Date = new Date();
+		data.setCreateDate(Date);
+		data.setModifyDate(Date);
+		return reservationUserCommentDao.insert(data);
+	}
+
+	@Override
+	public List<ReservationUserComment> getReservationUserCommentByProductId(int id) {
+		return reservationUserCommentDao.selectByProductId(id);
 	}
 
 	

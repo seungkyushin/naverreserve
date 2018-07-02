@@ -10,9 +10,9 @@
 	<meta name="description" content="네이버 예약, 네이버 예약이 연동된 곳 어디서나 바로 예약하고, 네이버 예약 홈(나의예약)에서 모두 관리할 수 있습니다.">
 	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
 	<title>네이버 예약</title>
-	<link href="../naverreserve/css/style.css" rel="stylesheet">
-	<script src="../naverreserve/js/Ajax.js"> </script>
-	<script src="../naverreserve/js/myreservation.js"> </script>
+	<link href="./css/style.css" rel="stylesheet">
+	<script src="./js/Ajax.js"> </script>
+	<script src="./js/myreservation.js"> </script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
 </head>
@@ -180,7 +180,7 @@
 				</div>
 				<!--[D] 예약 신청중: .ico_clock, 예약확정&이용완료: .ico_check2, 취소된 예약: .ico_cancel 추가 spr_book -->
 				<!-- [D] 예약 신청중, 예약 확정 만 취소가능, 취소 버튼 클릭 시 취소 팝업 활성화 -->
-				<div class="booking_cancel">
+				<div class="booking_cancel {{buttonClassName}}">
 		
 				</div>
 
@@ -200,22 +200,8 @@
 
 <script>
 window.addEventListener("DOMContentLoaded",function(){
-	
 	var email = '${sessionScope.email}';
-/*     console.log(email);
-	$.ajax({
-		url : "../naverreserve/api/bookingList",
-		type: "POST",
-		data : email,
-		//contentType : "application/json",
-		success :initReservationList,
-		error : function(xhr, status, error) {
-             alert("/bookingList 에러발생");
-       }
-	}) */
 	myAjax("GET","../naverreserve/api/bookingList?email="+email, initReservationList);
-	
-	
 });
 
 
