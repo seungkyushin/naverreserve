@@ -151,10 +151,10 @@
 							<div class="grade_area">
 								<!-- [D] 별점 graph_value는 퍼센트 환산하여 width 값을 넣어줌 -->
 								<span class="graph_mask"> <em class="graph_value"
-									style="width: 84%;"></em>
-								</span> <strong class="text_value"> <span>4.2</span> <em
+									style="width: 0%;"></em>
+								</span> <strong class="text_value"> <span>0.0</span> <em
 									class="total">5.0</em>
-								</strong> <span class="join_count"><em class="green">52건</em> 등록</span>
+								</strong> <span class="join_count"><em class="green">0건</em> 등록</span>
 							</div>
 							<ul class="list_short_review">
 								
@@ -166,7 +166,7 @@
 								이용자가 남긴 평가입니다.</span>
 						</p>
 					</div>
-					<a class="btn_review_more" href="./review.html"> <span>예매자
+					<a class="btn_review_more" href="./review"> <span>예매자
 							한줄평 더보기</span> <i class="fn fn-forward1"></i>
 					</a>
 				</div>
@@ -256,7 +256,7 @@
 <div>
 	<div class="review_area">
 		<div class="thumb_area">
-			<a href="#" class="thumb" title="이미지 크게 보기"> <img
+			<a href="#" class="thumb" title="이미지 크게 보기" style="display: {{display}};"> <img
 				width="90" height="90" class="img_vertical_top"
 				src="{{imageSrc}}"
 				alt="리뷰이미지">

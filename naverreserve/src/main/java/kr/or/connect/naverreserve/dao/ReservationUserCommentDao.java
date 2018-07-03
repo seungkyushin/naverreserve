@@ -39,9 +39,9 @@ public class ReservationUserCommentDao {
 		return jdbc.query(SELECT_ALL, rowMapper);
 	}
 	
-	public Long insert(ReservationUserComment data) {
+	public int insert(ReservationUserComment data) {
 		SqlParameterSource params = new BeanPropertySqlParameterSource(data);
-		return insertAction.executeAndReturnKey(params).longValue();
+		return insertAction.executeAndReturnKey(params).intValue();
 
 	}
 	

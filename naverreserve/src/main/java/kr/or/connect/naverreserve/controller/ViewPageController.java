@@ -61,6 +61,15 @@ public class ViewPageController {
 		return "bookinglogin";
 	}
 	
+	@GetMapping(path="/review")
+	public String review(){
+		System.out.println("ViewPageController : /review");
+	
+		return "review";
+	}
+	
+	
+	
 	
 	@GetMapping(path="/myreservation")
 	public String myreservation( @ModelAttribute("resrv_email") String email 

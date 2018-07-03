@@ -1,5 +1,7 @@
 package kr.or.connect.naverreserve.controller;
 
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.or.connect.naverreserve.dto.Category;
 import kr.or.connect.naverreserve.dto.DisplayInfo;
@@ -29,9 +32,11 @@ import kr.or.connect.naverreserve.dto.Promotion;
 import kr.or.connect.naverreserve.dto.ReservationInfo;
 import kr.or.connect.naverreserve.dto.ReservationInfoPrice;
 import kr.or.connect.naverreserve.dto.ReservationUserComment;
+import kr.or.connect.naverreserve.dto.ReservationUserCommentImage;
 import kr.or.connect.naverreserve.service.CategoryService;
 import kr.or.connect.naverreserve.service.DisplayInfoImageServie;
 import kr.or.connect.naverreserve.service.DisplayInfoService;
+import kr.or.connect.naverreserve.service.FileInfoService;
 import kr.or.connect.naverreserve.service.ProductService;
 import kr.or.connect.naverreserve.service.PromotionService;
 import kr.or.connect.naverreserve.service.ReservationService;
@@ -57,6 +62,9 @@ public class ApiController {
 	
 	@Autowired
 	ReservationService reservationService;
+	
+	@Autowired
+	FileInfoService fileInfoService;
 	
 	@GetMapping(path="/categories")
 	public Map<String,Object> categories( )  {
@@ -241,21 +249,63 @@ public class ApiController {
 		displayInfoImages.put("createDate", fileInfoDto.getCreateDate());
 		displayInfoImages.put("modifyDate", fileInfoDto.getModifyDate());
 		
+		List<Object> resultComments = new ArrayList<>();
+		
+		
 		
 	//< comments
 		List<ReservationUserComment> reservationUserCommentDto
 		= reservationService.getReservationUserCommentByProductId(ProductDto.getId());		
-		/*			
-		//< reservatuibUserCommentImages
 		
-		ReservationUserCommentImage reservationUserCommentImageDto
-		= reservationUserCommentImageService.getReservationUserCommentImageById(reservationUserCommentDto.getProductId());
-		*/
+
+		
+		for( ReservationUserComment data : reservationUserCommentDto) {
+			Map<String,Object> comments = new HashMap<String,Object>();
+			
+			comments.put("id", data.getId());
+			comments.put("productId", data.getProductId());
+			comments.put("reservationInfoId", data.getReservationInfoId());
+			comments.put("score", data.getScore());
+			comments.put("comment", data.getComment());
+			comments.put("createDate", data.getCreateDate());
+			comments.put("modifyDate", data.getModifyDate());
+					
+			
+			Map<String,Object> RUCImage = new HashMap<String,Object>();
+			try {
+			ReservationUserCommentImage reservationUserCommentImageDto
+			= reservationService.getReservationUserCommentImageByCommentId(data.getId());
+			
+			FileInfo file = reservationService.getFileInfoByFileId(reservationUserCommentImageDto.getFileId());
+			
+			RUCImage.put("id", reservationUserCommentImageDto.getId());
+			RUCImage.put("reservationInfoId", reservationUserCommentImageDto.getReservationInfoId());
+			RUCImage.put("fileId", reservationUserCommentImageDto.getFileId());
+			RUCImage.put("fileName", file.getFileName());
+			RUCImage.put("saveFileName", file.getSaveFileName());
+			RUCImage.put("contentType", file.getContentType());
+			RUCImage.put("deleteFlag", file.isDeleteFlag());
+			RUCImage.put("createDate", file.getCreateDate());
+			RUCImage.put("modifyDate", file.getModifyDate());
+			
+			
+			}catch(EmptyResultDataAccessException e)
+			{
+				
+			}
+			
+			
+			comments.put("reservationUserCommentImage", RUCImage);
+			resultComments.add(comments);
+		}
+		
+		
+	
 		resultMap.put("product",prdouct);
 		resultMap.put("productImages",productImageList);
 		resultMap.put("displayInfoImages",displayInfoImages);
-		resultMap.put("comments",reservationUserCommentDto);
-		//resultMap.put("reservatuibUserCommentImages",srcList);
+		resultMap.put("comments",resultComments);
+	
 		resultMap.put("avgScore",3.0);
 		//resultMap.put("productPrice",srcList);
 		
@@ -390,23 +440,58 @@ public class ApiController {
 		return resultMap;
 	}
 	
+	
 	@PostMapping(path="/reservationUserComments")
-	public  Map<String,Object> UserComment(@RequestBody Map<String,Object> MapData) {
+	public  Map<String,Object> UserComment(	@RequestParam("file") MultipartFile file,
+			ReservationUserComment data) {
 		System.out.println("@PostMapping : /reservationUserComments");
-		
-		System.out.println(MapData);
-		
 		Map<String,Object> resultMap = new HashMap<String,Object>();
-		ReservationUserComment reservationUserCommentDto = new ReservationUserComment();
 		
-		reservationUserCommentDto.setComment((String)MapData.get("comment"));
-		reservationUserCommentDto.setScore(Integer.parseInt((String)MapData.get("score")));
-		reservationUserCommentDto.setProductId(Integer.parseInt((String)MapData.get("productId")));
-		reservationUserCommentDto.setReservationInfoId(Integer.parseInt((String)MapData.get("reservationId")));
+		int ReservationUserCommentId = reservationService.insertReservationUserComment(data);
+		int imageCount = reservationService.getReservationUserCommentImageCount( data.getReservationInfoId() );
 		
-		reservationService.insertReservationUserComment(reservationUserCommentDto);
+		Date now = new Date();
+		String fileName = data.getProductId() +"_"+now.getTime()+"_"+(imageCount+1) +"."+ file.getContentType().split("/")[1];
+		System.out.println("저장 이름 : " + fileName);
 		
-		resultMap.put("reservationUserComment",reservationUserCommentDto);
+		  try(
+				  	FileOutputStream fos = new FileOutputStream( "C:\\Users\\Administrator\\git\\naverreserve\\src\\main\\webapp\\uploadimg\\" + fileName);
+	                InputStream is = file.getInputStream();
+	        ){
+	        	    int readCount = 0;
+	        	    byte[] buffer = new byte[1024];
+	            while((readCount = is.read(buffer)) != -1){
+	                fos.write(buffer,0,readCount);
+	            }
+	        }catch(Exception ex){
+	            throw new RuntimeException("file Save Error");
+	        }
+		  
+
+		  System.out.println("확장자 이름 : " +  file.getContentType());
+
+
+		//< 이미지 저장
+		FileInfo fileinfoDto = new FileInfo();
+		fileinfoDto.setContentType(file.getContentType());
+		fileinfoDto.setDeleteFlag(false);
+		fileinfoDto.setFileName(fileName);
+		fileinfoDto.setSaveFileName("uploadimg/"+fileName);
+		int fileInfotId = reservationService.insertFileInfo(fileinfoDto);
+		
+		
+		//< 이미지 DB 
+		ReservationUserCommentImage reservationUserCommentImageDto = new ReservationUserCommentImage();
+		reservationUserCommentImageDto.setFileId(fileInfotId);
+		reservationUserCommentImageDto.setReservationInfoId(data.getReservationInfoId());
+		reservationUserCommentImageDto.setReservationUserCommentId(ReservationUserCommentId);
+	
+		reservationService.insertReservationUserCommentImage(reservationUserCommentImageDto);
+	
+		resultMap.put("reservationUserComment",reservationUserCommentImageDto);
+		int productId = data.getProductId();
+		resultMap.put("productId",productId);
+		
 		return resultMap;
 	}
 	

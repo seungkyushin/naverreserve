@@ -73,7 +73,10 @@
 						</span>
 						<span class="left_space">(단, 리뷰 포인트는 ID 당 1일 최대 5건까지 지급됩니다.)</span>
 					</a>
-					<textarea cols="30" rows="10" class="review_textarea"></textarea>
+					
+					<textarea  cols="30" rows="10" class="review_textarea"></textarea>
+					
+						
 				</div>
 				<!-- //리뷰 입력 -->
 
@@ -84,9 +87,14 @@
 							<i class="fn fn-image1" aria-hidden="true"></i>
 							<span class="text_add_photo">사진 추가</span>
 						</label>
-						<input type="text" class="hidden_input" id="productId">
-						<input type="text" class="hidden_input" id="reservationId">
-						<input type="file" class="hidden_input" id="reviewImageFileOpenInput" accept="image/*" multiple>
+						
+						<form id="formdata" method="post" action="api/reservationUserComments" enctype="multipart/form-data">
+							<input type="text" class="hidden_input" name="productId" id="productId">
+							<input type="text" class="hidden_input" name="reservationInfoId" id="reservationInfoId">
+							<input type="text" class="hidden_input" name="score" id="score">
+							<input type="text" class="hidden_input" name="comment" id="comment"> 
+							<input type="file" name="file" class="hidden_input" id="reviewImageFileOpenInput" accept="image/*" multiple>
+						</form>
 						<div class="guide_review">
 							<span>0</span>/400
 							<span>(최소5자이상)</span>
@@ -140,7 +148,7 @@ window.addEventListener("DOMContentLoaded",function(){
 	var productId = '${requestScope.productId}';
 	document.querySelector("#productId").value = productId;
 	var reservationId = '${requestScope.reservationId}';
-	document.querySelector("#reservationId").value = reservationId;
+	document.querySelector("#reservationInfoId").value = reservationId;
 	
 
 	

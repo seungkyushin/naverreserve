@@ -68,15 +68,38 @@ function sendReview(){
 		
 		var sendData = {};
 		
-		sendData['productId'] = document.querySelector("#productId").value;
-		sendData['reservationId'] = document.querySelector("#reservationId").value;
-		sendData['score'] = document.querySelector(".star_rank").innerText;
-		sendData['comment'] = document.querySelector(".review_textarea").value;
-		//sendData['image'] = document.querySelector("#productId").value;
+		document.querySelector("#score").value = document.querySelector(".star_rank").innerText;
+		document.querySelector("#comment").value = document.querySelector(".review_textarea").value;
 
-		console.log(JSON.stringify(sendData));
 		
-		$.ajax({
+		console.log(JSON.stringify(document.querySelector("#score").value));
+		console.log(JSON.stringify(document.querySelector("#comment").value));
+		
+		var test = document.getElementById('formdata');
+		debugger;
+		var formData = new FormData(test);
+		console.log(formData);
+		//document.querySelector("#formdata").submit();
+		
+	
+		$.ajax({          
+			url : "api/reservationUserComments",
+			processData : false,
+			contentType : false,
+			data : formData,
+			type : "POST",
+			error : function(){
+				alert('통신을 실패했습니다. 다시 접속해 주세요.');
+			},
+
+			success : successResponse
+			
+
+		});
+		
+				
+		
+		/*$.ajax({
 			url  : "./api/reservationUserComments",
 			type : "POST",
 			data : JSON.stringify(sendData),
@@ -87,12 +110,12 @@ function sendReview(){
 			}
 		
 		});
-		
+		*/
 	});
 } 
 function successResponse(response)
 {
-	location.href="http://localhost:8080/naverreserve/detail?id=" + response.reservationUserComment.productId;;
+	location.href="http://localhost:8080/naverreserve/detail?id=" + response.productId;
 }
 function reviewImage(){
 	const elImage = document.querySelector("#reviewImageFileOpenInput");

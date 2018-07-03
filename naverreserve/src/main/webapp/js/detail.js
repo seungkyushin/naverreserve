@@ -45,7 +45,7 @@ var infoTab = document.querySelector(".info_tab_lst");
 
 function setProductDetail(response){
 	var responseData = JSON.parse(response.responseText);
-	
+	console.log(responseData);
 	
 	var template = document.querySelector("#template_item_img");
 	var parser = Handlebars.compile(template.innerText); 
@@ -90,20 +90,7 @@ function setProductDetail(response){
 		displayDicription.children[0].innerHTML = responseData.product.content;
 	
 	//< 리뷰 
-		var maxCount = responseData.comments.length;
-		document.querySelector(".join_count").innerHTML = '<em class="green">' + maxCount +'건</em> 등록';
-	
-		
-		var review = [];
-		var avgScore = 0;
-		for(var i = 0; i < maxCount; i++)
-			{
-				review[i] = new reviewItem(responseData.comments[i]);
-				avgScore += responseData.comments[i].score;
-			}
-		avgScore /= maxCount;
-		avgScore.toFixed(1);
-		document.querySelector(".text_value").innerHTML = '<span>'+ avgScore + '</span> <em	class="total">5.0</em>';
+		SetReviewElements(responseData);
 		
 	//< 세부 정보 소개 설정 
 	var detailInfo = document.querySelector(".detail_info_group");
@@ -133,12 +120,43 @@ function setProductDetail(response){
 
 }
 
+function SetReviewElements(responseData){
+	var maxCount = responseData.comments.length;
+	if( maxCount > 0){
+		document.querySelector(".join_count").innerHTML = '<em class="green">' + maxCount +'건</em> 등록';
+		
+		var review = [];
+		var avgScore = 0;
+		for(var i = 0; i < maxCount; i++)
+		{
+			review[i] = new reviewItem(responseData.comments[i]);
+			avgScore += responseData.comments[i].score;
+		}
+		avgScore /= maxCount;
+		avgScore = avgScore.toFixed(1);
+		var persent = (100/5) * avgScore;
+		
+		document.querySelector(".graph_value").style.width = persent + "%";
+		document.querySelector(".text_value").innerHTML = '<span>'+ avgScore + '</span> <em	class="total">5.0</em>';
+	}
+}
+
 function reviewItem(data){
 	this.makeHTML(data);
 }
 reviewItem.prototype = {
 		makeHTML : function(data){
-				
+			
+			if( data.reservationUserCommentImage.saveFileName != null ){
+				data.display = "";
+				data.imageSrc = "./"+data.reservationUserCommentImage.saveFileName;
+			}
+			else{
+				data.display = "none";
+				data.imageSrc = "#";
+			}
+			
+
 			document.querySelector(".list_short_review").innerHTML
 			+= this.makeTemlateHTML("#listItem_review",data);
 	
