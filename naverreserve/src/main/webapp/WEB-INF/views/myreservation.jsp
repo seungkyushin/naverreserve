@@ -13,8 +13,8 @@
 	<link href="./css/style.css" rel="stylesheet">
 	<script src="./js/Ajax.js"> </script>
 	<script src="./js/myreservation.js"> </script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+	<script src="./js/jquery.min.js"></script>
+	 <script src="./js/handlebars.min.js"></script>
 </head>
 
 <body>

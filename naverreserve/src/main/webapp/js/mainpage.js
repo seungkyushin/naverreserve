@@ -9,32 +9,32 @@ function ShowProductItems(){
 	//< 현재 상품 리스트 개수 구하기
 	for( var i = 0; i < 2; i++)
 		productCount += productElements[i].children.length;
-	
+		
 	//< 최개 개수랑 현재 개수랑 같으면 더보기 버튼을 숨기고 서버에 요청하지 않는다.
 	 var productCountElement = document.querySelector(".event_lst_txt");
-	if( productCount+'개' ==  productCountElement.children[0].innerHTML)		{
-		
-			moreBtn.hidden = true;
-		}
-	else{
+	 var maxProduct = parseInt(productCountElement.children[0].innerText);
+
+	if( productCount+4 >=  maxProduct)	//< 4는 기본 상품 수	
+		moreBtn.hidden = true;
+	else
 		moreBtn.hidden = false;
-		var url = "http://localhost:8080/naverreserve/api/products?categoryId="+ courrentCategoryId +"&start=" + productCount;
+	
+		var url = "./api/products?categoryId="+ courrentCategoryId +"&start=" + productCount;
 		console.log(url);
 		myAjax("GET",url,setProductItem);
-	}
-			
+	
 
 }
 function initCategory(){
 	
-	myAjax("GET","http://localhost:8080/naverreserve/api/categories",categoryName);
+	myAjax("GET","./api/categories",categoryName);
 
 	var categoryElements = document.querySelector(".event_tab_lst");
 	categoryClicked(categoryElements);
 	
 }
 function initPromotion(){
-	myAjax("GET","http://localhost:8080/naverreserve/api/promotions",setPromotions);
+	myAjax("GET","./api/promotions",setPromotions);
 }
 function setPromotionsTemp(response)
 {
@@ -146,13 +146,12 @@ function setPromotions(response){
 	
 }
 function initProduct(){
-	myAjax("GET","http://localhost:8080/naverreserve/api/products",setProductItem);
+	myAjax("GET","./api/products",setProductItem);
 }
 function setProductItem(response){
 	
 	var responseData = JSON.parse(response.responseText);
 	var ProductPreviewParent = document.getElementsByClassName("lst_event_box");
-
 
 	var templateList = document.querySelector("#itemList");
 	var parser = Handlebars.compile(templateList.innerText);
@@ -256,7 +255,7 @@ function categoryClicked(Element){
 	 	 ProductPreviewParent[1].innerHTML = "";
 	 	 ShowProductItems();
 	 	 
-	 	myAjax("GET","http://localhost:8080/naverreserve/api/categories",categoryCount);
+	 	myAjax("GET","./api/categories",categoryCount);
 	 	 
 	});
 }

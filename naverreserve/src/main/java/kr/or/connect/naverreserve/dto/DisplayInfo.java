@@ -12,8 +12,9 @@ public class DisplayInfo {
 	private String tel;
 	private String homepage;
 	private String email;
-	private Date createDate;
-	private Date modifyDate;
+	private String createDate;
+	private String modifyDate;
+	
 	public int getId() {
 		return id;
 	}
@@ -68,16 +69,16 @@ public class DisplayInfo {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Date getCreateDate() {
+	public String getCreateDate() {
 		return createDate;
 	}
-	public void setCreateDate(Date createDate) {
+	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
 	}
-	public Date getModifyDate() {
+	public String getModifyDate() {
 		return modifyDate;
 	}
-	public void setModifyDate(Date modifyDate) {
+	public void setModifyDate(String modifyDate) {
 		this.modifyDate = modifyDate;
 	}
 	@Override

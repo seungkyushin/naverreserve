@@ -1,5 +1,7 @@
 package kr.or.connect.naverreserve.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -48,10 +50,12 @@ public class ReservationServiceImpl implements ReservationService{
 	@Override
 	public Long insertReservationInfo(ReservationInfo data) {
 		
-		Date Date = new Date();
-		data.setReservationDate(Date);
-		data.setCreateDate(Date);
-		data.setModifyDate(Date);
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = new Date();		
+		
+		data.setReservationDate(dateFormat.format(date));
+		data.setCreateDate(dateFormat.format(date));
+		data.setModifyDate(dateFormat.format(date));
 		return reservationInfoDao.insert(data);
 	}
 
@@ -73,9 +77,10 @@ public class ReservationServiceImpl implements ReservationService{
 
 	@Override
 	public int insertReservationUserComment(ReservationUserComment data) {
-		Date Date = new Date();
-		data.setCreateDate(Date);
-		data.setModifyDate(Date);
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = new Date();
+		data.setCreateDate(dateFormat.format(date));
+		data.setModifyDate(dateFormat.format(date));
 		return reservationUserCommentDao.insert(data);
 	}
 

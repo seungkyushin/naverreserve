@@ -9,8 +9,8 @@ public class Product {
 	private String description;
 	private String content;
 	private String event;
-	private Date create_date;
-	private Date Modify_date;
+	private String create_date;
+	private String Modify_date;
 	
 	public int getId() {
 		return id;
@@ -42,16 +42,16 @@ public class Product {
 	public void setEvent(String event) {
 		this.event = event;
 	}
-	public Date getCreate_date() {
+	public String getCreate_date() {
 		return create_date;
 	}
-	public void setCreate_date(Date create_date) {
+	public void setCreate_date(String create_date) {
 		this.create_date = create_date;
 	}
-	public Date getModify_date() {
+	public String getModify_date() {
 		return Modify_date;
 	}
-	public void setModify_date(Date modify_date) {
+	public void setModify_date(String modify_date) {
 		Modify_date = modify_date;
 	}
 	

@@ -25,8 +25,8 @@
       <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
       <meta name="format-detection" content="telephone=no, address=no, email=no">
       <title translate="CM-NBOOKING">네이버 예약</title>
-      <link href="../naverreserve/css/bookinglogin.css" rel="stylesheet">
-      <script src="../naverreserve/js/Ajax.js"> </script>
+      <link href="./css/bookinglogin.css" rel="stylesheet">
+      <script src="./js/Ajax.js"> </script>
    </head>
    <body class="biz  ko" >
       

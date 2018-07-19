@@ -10,10 +10,12 @@
     <meta name="description" content="네이버 예약, 네이버 예약이 연동된 곳 어디서나 바로 예약하고, 네이버 예약 홈(나의예약)에서 모두 관리할 수 있습니다.">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
     <title>네이버 예약</title>
+    
     <link href="../naverreserve/css/style.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
-    <script src="../naverreserve/js/Ajax.js"></script>
-    <script src="../naverreserve/js/mainpage.js"></script>
+     <script src="./js/handlebars.min.js"></script>
+     <script src="./js/jquery.min.js"></script>
+     <script src="./js/Ajax.js"></script>
+     <script src="./js/mainpage.js"></script>
 </head>
 
 <body>
@@ -79,7 +81,7 @@
                 </ul>
             </div>
             <div class="section_event_lst">
-                <p class="event_lst_txt">바로 예매 가능한 행사가 <span class="pink">0개</span> 있습니다</p>
+                <p class="event_lst_txt">바로 예매 가능한 행사가 <span class="pink">0</span>개 있습니다</p>
                 <div class="wrap_event_box">
                     <!-- [D] lst_event_box 가 2컬럼으로 좌우로 나뉨, 더보기를 클릭할때마다 좌우 ul에 li가 추가됨 -->
                     <ul class="lst_event_box"><!--왼쪽 뮤지컬,영화 등등 정보 넣기 --></ul>
@@ -108,23 +110,18 @@
 
 <script>
 
-function Init(){
-	
+$(document).ready(function (){
 	initPromotion();
-		
 	initCategory();
-	
 	initProduct();
 	
 	var moreBtn = document.querySelector(".btn");
 	moreBtn.addEventListener('click',function(){
-		ShowProductItems();
+		if( ShowProductItems() ) {
+			
+		}
+		
 	});
-}
-
-
-window.addEventListener('DOMContentLoaded', function () {
-	Init();
 });
 
 </script> 
