@@ -76,11 +76,7 @@ function sendReview(){
 		console.log(JSON.stringify(document.querySelector("#comment").value));
 		
 		var test = document.getElementById('formdata');
-		debugger;
 		var formData = new FormData(test);
-		console.log(formData);
-		//document.querySelector("#formdata").submit();
-		
 	
 		$.ajax({          
 			url : "api/reservationUserComments",
@@ -98,19 +94,6 @@ function sendReview(){
 		});
 		
 				
-		
-		/*$.ajax({
-			url  : "./api/reservationUserComments",
-			type : "POST",
-			data : JSON.stringify(sendData),
-			contentType : "application/json",
-			success :successResponse,
-			error : function(xhr, status, error) {
-            	alert("/reservationUserComments 에러발생");
-			}
-		
-		});
-		*/
 	});
 } 
 function successResponse(response)
