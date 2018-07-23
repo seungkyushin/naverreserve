@@ -18,7 +18,7 @@ public class DBConfig implements TransactionManagementConfigurer{
 	private String driverClassName = "com.mysql.jdbc.Driver";
 	private String url = "jdbc:mysql://localhost:3306/culture_db?useUnicode=true&characterEncoding=utf8";
 	private String username = "root";
-	private String password = "dkagh1234.";
+	private String password = "Dkagh1234.";
 	
 	@Bean
 	public DataSource jdbcConnection() {
