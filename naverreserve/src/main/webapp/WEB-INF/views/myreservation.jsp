@@ -201,7 +201,7 @@
 <script>
 window.addEventListener("DOMContentLoaded",function(){
 	var email = '${sessionScope.email}';
-	myAjax("GET","../naverreserve/api/bookingList?email="+email, initReservationList);
+	myAjax("GET","./naverreserve/api/bookingList?email="+email, initReservationList);
 });
 
 

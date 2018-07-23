@@ -25,29 +25,7 @@
 
 <body>
 	<div id="container">
-	<%-- 	<div class="header fade">
-			<header class="header_tit">
-				<h1 class="logo">
-					<a href="./main" class="lnk_logo" title="네이버"> <span
-						class="spr_bi ico_n_logo">네이버</span>
-					</a>
-				<c:if test="${empty sessionScope.email}">
-      			   <a href="../bookinlogin" class="lnk_logo" title="예약"><span class="spr_bi ico_bk_logo">예약</span></a>
-   				 </c:if>
-				</h1>
-				
-		<c:choose>
-    		<c:when test="${empty sessionScope.email}">
-      		  <a href="./bookinglogin" class="btn_my"> <span class="viewReservation" title="예약확인">예약확인</span> </a>
-   			 </c:when>
-   			 <c:otherwise>
-     		  <a href="./myreservation" class="btn_my"> <span class="viewReservation" title="${sessionScope.email}">${sessionScope.email}</span> </a>
-   			 </c:otherwise>
-		</c:choose>
-			</header>
-			
-		</div> --%>
-		
+x		
 		<div class="ct main">
 			<div>
 				<div class="section_visual">
@@ -296,7 +274,7 @@
 window.addEventListener("DOMContentLoaded",function(){
 
 	//< URL을 받아와 설정 
-	myAjax("GET","http://localhost:8080/naverreserve/api/products/"+ '${id}',setProductDetail);
+	myAjax("GET","./naverreserve/api/products/"+ '${id}',setProductDetail);
 	
 	
 	//< 접기 펼치기 jquery 사용 가능  

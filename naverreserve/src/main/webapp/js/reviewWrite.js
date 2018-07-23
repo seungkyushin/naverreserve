@@ -98,7 +98,7 @@ function sendReview(){
 } 
 function successResponse(response)
 {
-	location.href="http://localhost:8080/naverreserve/detail?id=" + response.productId;
+	location.href="./naverreserve/detail?id=" + response.productId;
 }
 function reviewImage(){
 	const elImage = document.querySelector("#reviewImageFileOpenInput");

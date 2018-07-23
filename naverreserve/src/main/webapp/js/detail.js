@@ -2,7 +2,7 @@ function reservationBtn(id){
 	var rvBtn = document.querySelector(".bk_btn");
 	
 	rvBtn.addEventListener("click",function(){
-		location.href = "http://localhost:8080/naverreserve/reserve?id=" + id;
+		location.href = "./naverreserve/reserve?id=" + id;
 	});
 }
 

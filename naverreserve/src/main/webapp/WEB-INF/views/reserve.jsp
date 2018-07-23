@@ -231,7 +231,7 @@ window.addEventListener("DOMContentLoaded",function(){
 	
 	var productId = ${id};
 	var backBtn = document.querySelector(".btn_back");
-	backBtn.href = "../naverreserve/detail?id=" + productId;
+	backBtn.href = "./naverreserve/detail?id=" + productId;
 	var product = document.querySelector("#productId");
 	product.value = productId;
 	
@@ -293,7 +293,7 @@ window.addEventListener("DOMContentLoaded",function(){
 			sendData = JSON.stringify(sendData);
 			   console.log( sendData );
 			    $.ajax({
-				   url : "http://localhost:8080/naverreserve/api/reservation",
+				   url : "./naverreserve/api/reservation",
 					type : "POST" ,
 					data : sendData ,
 					contentType:"application/json",
@@ -302,7 +302,7 @@ window.addEventListener("DOMContentLoaded",function(){
 					success : function(data){
 						console.log(data);
 						alert("예약이 성공적으로 완료되었습니다.\n 처음화면으로 돌아갑니다.");
-						window.location.href = "http://localhost:8080/naverreserve/main";
+						window.location.href = "./naverreserve/main";
 						
 					},
 					error : function(xhr, status, error) {
@@ -320,8 +320,8 @@ window.addEventListener("DOMContentLoaded",function(){
 	});
 
 	
-	myAjax("GET","http://localhost:8080/naverreserve/api/products/"+productId,setProductInfo);
-	myAjax("GET","http://localhost:8080/naverreserve/api/reservationInfos/"+productId,setReservationInfo);
+	myAjax("GET","./naverreserve/api/products/"+productId,setProductInfo);
+	myAjax("GET","./naverreserve/api/reservationInfos/"+productId,setReservationInfo);
 });
 function setProductInfo(response)
 {
@@ -330,7 +330,7 @@ function setProductInfo(response)
 	responseData.productImages.forEach(function(data){
 		if( data.type == "ma" )		{
 		 	var image = document.querySelector(".img_thumb");
-		 	image.src = "http://localhost:8080/naverreserve/" + data.saveFileName;
+		 	image.src = "./naverreserve/" + data.saveFileName;
 		}
 	});
 	
