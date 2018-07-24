@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kr.or.connect.naverreserve.dao.DisplayInfoDao;
+
 import kr.or.connect.naverreserve.dao.DisplayInfoImageDao;
 import kr.or.connect.naverreserve.dto.DisplayInfoImage;
 
@@ -28,7 +28,6 @@ public class DisplayInfoImageServieImpl implements DisplayInfoImageServie{
 
 	@Override
 	public int getDisplayInfoImageCount() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

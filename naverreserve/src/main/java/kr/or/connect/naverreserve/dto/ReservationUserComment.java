@@ -1,6 +1,5 @@
 package kr.or.connect.naverreserve.dto;
 
-import java.util.Date;
 
 public class ReservationUserComment {
  private int id;

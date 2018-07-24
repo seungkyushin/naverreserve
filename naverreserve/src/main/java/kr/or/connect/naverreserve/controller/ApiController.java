@@ -149,7 +149,7 @@ public class ApiController {
 		
 		List<Object> productsList = new ArrayList<Object>();
 		//< 이미지 
-		List<String> srcList = new ArrayList<String>();
+		//List<String> srcList = new ArrayList<String>();
 		
 		for( Product product : products)
 		{

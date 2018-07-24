@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 
-<html lang="ko">
+<html >
 
 <head>
 	<meta charset="utf-8">
@@ -53,7 +53,7 @@
 
 				<!-- 내 예약 리스트 -->
 			 	<div class="wrap_mylist">
-					<ul class="list_cards" ng-if="bookedLists.length > 0">
+					<ul class="list_cards">
 					
 						<li id="list-confirmed" class="card confirmed">
 						</li>
@@ -63,7 +63,7 @@
 						
 						<li id="list-cancel" class="card used cancel">
 						</li>
-						</ul>
+					</ul>
 					</div>
 					<!--// 내 예약 리스트 -->
 
@@ -200,9 +200,5 @@ window.addEventListener("DOMContentLoaded",function(){
 	var email = '${requestScope.email}';
 	myAjax("GET","./api/bookingList?email="+email, initReservationList);
 });
-
-
-
-
 </script>
 </html>

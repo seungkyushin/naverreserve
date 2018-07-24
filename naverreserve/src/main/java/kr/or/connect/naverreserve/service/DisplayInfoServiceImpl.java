@@ -26,8 +26,7 @@ public class DisplayInfoServiceImpl implements DisplayInfoService{
 
 	@Override
 	public int getDisplayInfoCount() {
-		// TODO Auto-generated method stub
-		return 0;
+			return 0;
 	}
 
 }

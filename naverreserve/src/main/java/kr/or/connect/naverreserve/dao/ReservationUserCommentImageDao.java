@@ -1,6 +1,6 @@
 package kr.or.connect.naverreserve.dao;
 
-import static kr.or.connect.naverreserve.sqlquery.ProductSql.SELECT_LIMIT;
+import static kr.or.connect.naverreserve.sqlquery.ProductSql.*;
 import static kr.or.connect.naverreserve.sqlquery.ReservationUserCommentImageSql.SELECT_ALL;
 import static kr.or.connect.naverreserve.sqlquery.ReservationUserCommentImageSql.SELECT_BY_RESERVATION_INFO_ID;
 import static kr.or.connect.naverreserve.sqlquery.ReservationUserCommentImageSql.SELECT_BY_RSERVATION_USER_COMMENT_ID;
