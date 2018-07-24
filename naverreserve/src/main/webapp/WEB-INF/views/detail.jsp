@@ -24,9 +24,11 @@
 </head>
 
 <body>
-	<div id="container">
-x		
+	<div id="container">		
 		<div class="ct main">
+				<div class="top_title review_header">
+					<a href="./main" class="btn_back" title="이전 화면으로 이동"> <i class="fn fn-backward1"></i> </a>					<h2><span class="title"></span></h2>
+				</div>
 			<div>
 				<div class="section_visual">
 					<header>
@@ -34,16 +36,16 @@ x
 							<a href="./main" class="lnk_logo" title="네이버"> <span
 								class="spr_bi ico_n_logo">네이버</span>
 							</a> 
-							<c:if test="${empty sessionScope.email}">
+							<c:if test="${empty cookie.email.value}">
       			  				 <a href="../bookinlogin" class="lnk_logo" title="예약"><span class="spr_bi ico_bk_logo">예약</span></a>
    				 			</c:if>
 						</h1>
 						<c:choose>
-    		<c:when test="${empty sessionScope.email}">
+    		<c:when test="${empty cookie.email.value}">
       		  <a href="./bookinglogin" class="btn_my"> <span class="viewReservation" title="예약확인">예약확인</span> </a>
    			 </c:when>
    			 <c:otherwise>
-     		  <a href="./myreservation" class="btn_my"> <span class="viewReservation" title="${sessionScope.email}">${sessionScope.email}</span> </a>
+     		  <a href="./myreservation?email=${cookie.email.value}" class="btn_my"> <span class="viewReservation" title="${sessionScope.email}">${sessionScope.email}</span> </a>
    			 </c:otherwise>
 		</c:choose>
 					</header>
@@ -263,7 +265,7 @@ x
                           	<h2 class="visual_txt_tit"> 
 								<span>{{discription}}</span>
 						 	</h2>
-                  		  	<p class="visual_txt_dsc">class visual_txt_dsc</p>
+                  		  	<p class="visual_txt_dsc"></p>
                      </div>
                  </div>
   </li>
@@ -274,7 +276,7 @@ x
 window.addEventListener("DOMContentLoaded",function(){
 
 	//< URL을 받아와 설정 
-	myAjax("GET","./naverreserve/api/products/"+ '${id}',setProductDetail);
+	myAjax("GET","./api/products/"+ '${id}',setProductDetail);
 	
 	
 	//< 접기 펼치기 jquery 사용 가능  

@@ -35,58 +35,42 @@ public class ViewPageController {
 	public String detail( @RequestParam(name="id",required=true,defaultValue="0") int id,
 			ModelMap model
 			){
-		System.out.println("ViewPageController : /detail");
-		System.out.println("id :" + id);
-		
 		model.addAttribute("id",id);
-		
 		return "detail";
 	}
 	@GetMapping(path="/reserve")
 	public String reserve( @RequestParam(name="id",required=true,defaultValue="0") int id,
 			ModelMap model
 			){
-		System.out.println("ViewPageController : /reserve");
-		System.out.println("id :" + id);
-		
 		model.addAttribute("id",id);
-		
 		return "reserve";
 	}
 	
 	@GetMapping(path="/bookinglogin")
 	public String bookinglogin(){
-		System.out.println("ViewPageController : /bookinglogin");
-	
 		return "bookinglogin";
 	}
 	
 	@GetMapping(path="/review")
 	public String review(){
-		System.out.println("ViewPageController : /review");
-	
 		return "review";
 	}
 	
-	
-	
-	
+
 	@GetMapping(path="/myreservation")
 	public String myreservation( @ModelAttribute("resrv_email") String email 
 			,HttpSession sec
 			,RedirectAttributes redirectAttr
+			,HttpServletRequest req
+			
 			,ModelAndView model){
-		System.out.println("ViewPageController : /myreservation");
-		System.out.println(sec.getAttribute("email"));
-		
-	
 				
-		if( sec.isNew() == false && email.equals("") )
-		{
-			email = (String)sec.getAttribute("email");
-		}
-	
-		sec.setAttribute("email",email);
+//		if( sec.isNew() == false && email.equals("") )
+//		{
+//			email = (String)sec.getAttribute("email");
+//		}
+//	
+//		sec.setAttribute("email",email);
 		
 		List<ReservationInfo> reservation = reservationService.getReservationInfoByEmail(email);
 		
@@ -97,6 +81,8 @@ public class ViewPageController {
 			return "redirect:/bookinglogin";
 		}
 		
+		
+		req.setAttribute("email", email);
 		return "myreservation";
 	}
 	

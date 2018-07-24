@@ -2,7 +2,7 @@ function reservationBtn(id){
 	var rvBtn = document.querySelector(".bk_btn");
 	
 	rvBtn.addEventListener("click",function(){
-		location.href = "./naverreserve/reserve?id=" + id;
+		location.href = "./reserve?id=" + id;
 	});
 }
 
@@ -45,8 +45,7 @@ var infoTab = document.querySelector(".info_tab_lst");
 
 function setProductDetail(response){
 	var responseData = JSON.parse(response.responseText);
-	console.log(responseData);
-	
+
 	var template = document.querySelector("#template_item_img");
 	var parser = Handlebars.compile(template.innerText); 
 	var dataSize = responseData.productImages.length;

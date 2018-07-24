@@ -31,10 +31,10 @@ public class ReservationInfoDao {
 				.usingGeneratedKeyColumns("id");
 	}
 	
-	public Long insert(ReservationInfo data)
+	public int insert(ReservationInfo data)
 	{
 		SqlParameterSource params = new BeanPropertySqlParameterSource(data);
-		return insertAction.executeAndReturnKey(params).longValue();
+		return insertAction.executeAndReturnKey(params).intValue();
 	}
 	
 	public List<ReservationInfo> selectAll() {

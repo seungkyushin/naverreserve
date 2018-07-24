@@ -23,11 +23,11 @@
 					<a href="./main" class="lnk_logo" title="예약"> <span class="spr_bi ico_bk_logo">예약</span> </a>
 				</h1>
 				  <c:choose>
-    				<c:when test="${empty sessionScope.email}">
+    				<c:when test="${empty cookie.email.value}">
      				   <a href="./bookinglogin" class="btn_my"> <span class="viewReservation" title="예약확인">예약확인</span> </a>
    					 </c:when>
    				 <c:otherwise>
-     				  <a href="./myreservation" class="btn_my"> <span class="viewReservation" title="${sessionScope.email}">${sessionScope.email}</span> </a>
+     				  <a href="./myreservation?email=${cookie.email.value}" class="btn_my"> <span class="viewReservation" title="${cookie.email.value}">${cookie.email.value}</span> </a>
     			</c:otherwise>
 			</c:choose>
 			</header>

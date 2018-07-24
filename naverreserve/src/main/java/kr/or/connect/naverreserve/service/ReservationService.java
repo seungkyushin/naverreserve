@@ -13,7 +13,7 @@ public interface ReservationService {
 	//< 예약
 	public List<ReservationInfo> getReservationInfoByEmail(String email);
 	public ReservationInfo getReservationInfoById(int id);
-	public Long insertReservationInfo(ReservationInfo data);
+	public int insertReservationInfo(ReservationInfo data);
 	
 	//< 가격
 	public Long insertReservationInfoPrice(ReservationInfoPrice data);

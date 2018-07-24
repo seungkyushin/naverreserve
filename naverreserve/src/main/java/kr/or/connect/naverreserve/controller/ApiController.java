@@ -333,15 +333,13 @@ public class ApiController {
 		reservationInfoDto.setReservationTel((String)param.get("reservationTel"));
 		reservationInfoDto.setStatus("confirmed");
 
-		reservationService.insertReservationInfo(reservationInfoDto);
+		int reservationId = reservationService.insertReservationInfo(reservationInfoDto);
 		
-		ReservationInfo ri = reservationService.getReservationInfoById(reservationInfoDto.getProductId());
-
 		for(Map<String,Object> data : test)
 		{
 			System.out.println(data);
 			ReservationInfoPrice reservationInfoPriceDto = new ReservationInfoPrice();
-			reservationInfoPriceDto.setReservationInfoId(ri.getId());
+			reservationInfoPriceDto.setReservationInfoId(reservationId);
 			
 			int id = Integer.parseInt(data.get("productPriceId").toString());
 			int count = Integer.parseInt(data.get("count").toString());

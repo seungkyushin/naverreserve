@@ -48,7 +48,7 @@ public class ReservationServiceImpl implements ReservationService{
 	}
 
 	@Override
-	public Long insertReservationInfo(ReservationInfo data) {
+	public int insertReservationInfo(ReservationInfo data) {
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = new Date();		

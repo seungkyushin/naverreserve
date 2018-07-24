@@ -7,6 +7,10 @@ function initReservationList(response){
 		cardItemHeaders.push(new CarditemHeader(v,i));
 	});
 	var index = 0 ;
+
+
+	
+	var StatusCount = [0,0,0];
 	responseData.items.forEach(function(v,i){
 		
 		switch( v.status )
@@ -23,8 +27,21 @@ function initReservationList(response){
 				
 		}
 		cardItemHeaders[index].addCardItem(v);
+		StatusCount[index] += 1;
 		
 	});
+	
+	//< 카운터 설정 
+	
+	var CountElements = document.querySelector(".summary_board");
+	
+	for(var i = 0; i < CountElements.childElementCount; i++){
+		if(i == 0)
+			CountElements.children[i].querySelector(".figure").innerText = responseData.items.length;
+		else
+			CountElements.children[i].querySelector(".figure").innerText = StatusCount[i-1];
+	}
+
 	
 	cardItemHeaders.forEach(function(v){
 		v.eventSetting();
@@ -33,13 +50,11 @@ function initReservationList(response){
 	
 	$(".btn_gray").click(function(){
 		$(".popup_booking_wrapper").css("display","none");
-		console.log("아니오");
 	});
 	
 	
 	$(".btn_green").click(function(){
 		$(".popup_booking_wrapper").css("display","none");
-		console.log("예");
 		
 		var index = document.querySelector(".pop_tit").dataset.index;
 		
@@ -67,7 +82,6 @@ function initReservationList(response){
 			data : JSON.stringify(sendData),
 			contentType:"application/json",
 			success : function(data, status, xhr) {
-			      console.log(data);
 			    },
 			    error: function(jqXHR, textStatus, errorThrown) {
 			      alert("error= " + errorThrown);

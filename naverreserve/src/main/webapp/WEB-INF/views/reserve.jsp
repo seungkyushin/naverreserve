@@ -77,7 +77,7 @@
                              
                                  </label>
                                      <div class="inline_control tel_wrap">
-                                          <input type="tel" name="reservationTel" id="tel" class="tel" data-iscorrect="false" value="" placeholder="휴대폰 입력 시 예매내역 문자발송">
+                                          <input type="tel" name="reservationTel" id="tel" class="tel" data-iscorrect="false" value="" placeholder="010-0000-000">
                                         <div class="warning_msg">형식이 틀렸거나 너무 짧아요</div>
                                     </div>
                                 </div>
@@ -231,7 +231,7 @@ window.addEventListener("DOMContentLoaded",function(){
 	
 	var productId = ${id};
 	var backBtn = document.querySelector(".btn_back");
-	backBtn.href = "./naverreserve/detail?id=" + productId;
+	backBtn.href = "./detail?id=" + productId;
 	var product = document.querySelector("#productId");
 	product.value = productId;
 	
@@ -293,7 +293,7 @@ window.addEventListener("DOMContentLoaded",function(){
 			sendData = JSON.stringify(sendData);
 			   console.log( sendData );
 			    $.ajax({
-				   url : "./naverreserve/api/reservation",
+				   url : "./api/reservation",
 					type : "POST" ,
 					data : sendData ,
 					contentType:"application/json",
@@ -302,7 +302,7 @@ window.addEventListener("DOMContentLoaded",function(){
 					success : function(data){
 						console.log(data);
 						alert("예약이 성공적으로 완료되었습니다.\n 처음화면으로 돌아갑니다.");
-						window.location.href = "./naverreserve/main";
+						window.location.href = "./main";
 						
 					},
 					error : function(xhr, status, error) {
@@ -320,8 +320,8 @@ window.addEventListener("DOMContentLoaded",function(){
 	});
 
 	
-	myAjax("GET","./naverreserve/api/products/"+productId,setProductInfo);
-	myAjax("GET","./naverreserve/api/reservationInfos/"+productId,setReservationInfo);
+	myAjax("GET","./api/products/"+productId,setProductInfo);
+	myAjax("GET","./api/reservationInfos/"+productId,setReservationInfo);
 });
 function setProductInfo(response)
 {
@@ -330,7 +330,7 @@ function setProductInfo(response)
 	responseData.productImages.forEach(function(data){
 		if( data.type == "ma" )		{
 		 	var image = document.querySelector(".img_thumb");
-		 	image.src = "./naverreserve/" + data.saveFileName;
+		 	image.src = "./" + data.saveFileName;
 		}
 	});
 	
