@@ -139,6 +139,7 @@
 								
 														
 							</ul>
+							<a class="btn_review_more" href="./reviewWrite?productId=1&reservationId=1"> <span>예매자 한줄평 더보기</span> <i class="fn fn-forward1"></i> </a>
 						</div>
 						<p class="guide">
 							<i class="spr_book2 ico_bell"></i> <span>네이버 예약을 통해 실제 방문한
